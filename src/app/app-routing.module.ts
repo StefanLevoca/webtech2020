@@ -3,9 +3,11 @@ import { RouterModule, Routes } from "@angular/router";
 import { UsersListComponent } from "./users-list/users-list.component";
 import { LoginComponent } from "./login/login.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { ExtendedUsersComponent } from "./extended-users/extended-users.component";
 
 const routes: Routes = [
   { path: "users", component: UsersListComponent },
+  { path: "extended-users", component: ExtendedUsersComponent },
   { path: "login", component: LoginComponent },
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }

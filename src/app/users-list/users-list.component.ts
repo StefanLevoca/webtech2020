@@ -11,8 +11,7 @@ import { Observable } from "rxjs";
 export class UsersListComponent implements OnInit {
   users: User[] = [
     new User("Peter", "peto@peto.sk"),
-    new User("Jožo", "jozo@peto.sk", 2, new Date("2020-01-17")),
-    { name: "Jano", email: "jano@jano.sk", password: "" }
+    new User("Jožo", "jozo@peto.sk", 2, new Date("2020-01-17"))
   ];
   selectedUser: User;
   users$: Observable<User[]>;

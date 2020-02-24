@@ -24,18 +24,8 @@ export class LoginComponent implements OnInit {
   }
 
   formSubmit() {
-    this.usersServerService.login(this.auth).subscribe(
-      ok => {
-        if (ok) {
-          console.log("Napojil som sa!! Huraaaa!");
-          this.router.navigateByUrl("/users");
-        } else {
-          console.log("Zly login alebo heslo");
-        }
-      },
-      error => {
-        console.log("iná chyba:" + JSON.stringify(error));
-      }
-    );
+    this.usersServerService.login(this.auth).subscribe(ok => {
+      this.router.navigateByUrl("/users");
+    });
   }
 }
