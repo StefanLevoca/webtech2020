@@ -14,7 +14,7 @@ export class UsersServerService {
     new User("Janka", "janka@janka.sk"),
     new User("Danka", "danka@janka.sk")
   ];
-  url = "http://158.197.236.231:8080/";
+  url = "http://localhost:8080/";
   //  private token: string = null;
   loggedUserSubscriber: Subscriber<string>;
 

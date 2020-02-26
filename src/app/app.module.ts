@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { MaterialModule } from "./material.module";
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
+import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ExtendedUsersComponent } from './extended-users/extended-users.componen
     LoginComponent,
     PageNotFoundComponent,
     NavBarComponent,
-    ExtendedUsersComponent
+    ExtendedUsersComponent,
+    GroupsToStringPipe
   ],
   imports: [
     BrowserModule,
