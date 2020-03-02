@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppComponent } from "./app.component";
 import { UsersListComponent } from "./users-list/users-list.component";
@@ -13,6 +13,7 @@ import { MaterialModule } from "./material.module";
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +23,15 @@ import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
     PageNotFoundComponent,
     NavBarComponent,
     ExtendedUsersComponent,
-    GroupsToStringPipe
+    GroupsToStringPipe,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     AppRoutingModule
   ],
