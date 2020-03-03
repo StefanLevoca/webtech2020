@@ -95,9 +95,16 @@ export class UsersServerService {
     this.token = null;
   }
 
-  userConflicts(user:User):Observable<string[]> {
-    return this.http.post<string[]>(this.url + "user-conflicts", user)
-    .pipe(catchError(error => this.processHttpError(error)));
+  userConflicts(user: User): Observable<string[]> {
+    return this.http
+      .post<string[]>(this.url + "user-conflicts", user)
+      .pipe(catchError(error => this.processHttpError(error)));
+  }
+
+  register(user: User): Observable<User> {
+    return this.http
+      .post<User>(this.url + "register", user)
+      .pipe(catchError(error => this.processHttpError(error)));
   }
 
   private processHttpError(error) {
