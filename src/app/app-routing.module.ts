@@ -5,8 +5,10 @@ import { LoginComponent } from "./login/login.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ExtendedUsersComponent } from "./extended-users/extended-users.component";
 import { RegisterComponent } from './register/register.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
+  { path: "users/edit/:id", component: EditUserComponent },
   { path: "users", component: UsersListComponent },
   { path: "extended-users", component: ExtendedUsersComponent },
   { path: "login", component: LoginComponent },

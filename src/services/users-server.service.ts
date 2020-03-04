@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { User } from "src/entities/user";
 import { of, Observable, throwError, EMPTY, Subscriber } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { map, catchError, mapTo } from "rxjs/operators";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Auth } from "src/entities/auth";
 import { SnackbarService } from "./snackbar.service";
+import { Group } from 'src/entities/group';
 
 @Injectable({
   providedIn: "root"
@@ -64,9 +65,21 @@ export class UsersServerService {
       .pipe(catchError(error => this.processHttpError(error)));
   }
 
+  getGroups(): Observable<Group[]> {
+    return this.http
+      .get<Group[]>(this.url + "groups")
+      .pipe(catchError(error => this.processHttpError(error)));
+  }
+
   getExtendedUsers(): Observable<User[]> {
     return this.http
       .get<User[]>(this.url + "users/" + this.token)
+      .pipe(catchError(error => this.processHttpError(error)));
+  }
+
+  getUser(id:number): Observable<User> {
+    return this.http
+      .get<User>(this.url + "user/" + id + "/" + this.token)
       .pipe(catchError(error => this.processHttpError(error)));
   }
 
@@ -104,6 +117,14 @@ export class UsersServerService {
   register(user: User): Observable<User> {
     return this.http
       .post<User>(this.url + "register", user)
+      .pipe(catchError(error => this.processHttpError(error)));
+  }
+
+  deleteUser(userId: number): Observable<boolean> {
+    return this.http
+      .delete(this.url + "user/" + userId + "/" + this.token).pipe(
+        mapTo(true)
+      )
       .pipe(catchError(error => this.processHttpError(error)));
   }
 
