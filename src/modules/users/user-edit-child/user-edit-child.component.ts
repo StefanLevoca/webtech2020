@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/entities/user';
 import { FormGroup, FormControl, Validators, ValidationErrors, AsyncValidatorFn, FormArray } from '@angular/forms';
 import { UsersServerService } from 'src/services/users-server.service';
@@ -14,6 +14,7 @@ import { Group } from 'src/entities/group';
 })
 export class UserEditChildComponent implements OnChanges {
   @Input() user: User;
+  @Output() changed = new EventEmitter<User>();
   groups: Group[];
   hide = true;
   userEditForm = new FormGroup(
@@ -102,7 +103,7 @@ export class UserEditChildComponent implements OnChanges {
     return (control: FormControl): Observable<ValidationErrors> => {
       const username = confictFieldName === "name" ? control.value : "";
       const email = confictFieldName === "email" ? control.value : "";
-      const user = new User(username, email);
+      const user = new User(username, email, this.user.id);
       return this.usersServerService.userConflicts(user).pipe(
         map(conflictsArray => {
           return conflictsArray.includes(confictFieldName)
@@ -119,12 +120,12 @@ export class UserEditChildComponent implements OnChanges {
     const user = new User(
       this.name.value,
       this.email.value,
-      undefined,
-      undefined,
-      this.password.value
+      this.user.id,
+      undefined /* last login */,
+      this.password.value.trim() ? this.password.value.trim() : null,
+      this.active.value,
+      this.groups.filter((group, i) => this.groupsCheckBoxes.at(i).value)
     );
-    this.usersServerService.register(user).subscribe(u => {
-      this.router.navigateByUrl("/login");
-    });
+    this.changed.next(user);
   }
 }

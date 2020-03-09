@@ -49,7 +49,7 @@
             </mat-slide-toggle>
           </div>
           <p>Groups:</p>
-          <div>
+          <div formArrayName="groups">
             <mat-checkbox *ngFor="let group of groupsCheckBoxes.controls; let i = index"
             [formControlName]="i">
                 {{groups[i].name}}

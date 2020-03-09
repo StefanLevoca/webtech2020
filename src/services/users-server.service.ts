@@ -18,6 +18,7 @@ export class UsersServerService {
   url = "http://localhost:8080/";
   //  private token: string = null;
   loggedUserSubscriber: Subscriber<string>;
+  redirectAfterLogin= "/extended-users";
 
   constructor(
     private http: HttpClient,
@@ -80,6 +81,12 @@ export class UsersServerService {
   getUser(id:number): Observable<User> {
     return this.http
       .get<User>(this.url + "user/" + id + "/" + this.token)
+      .pipe(catchError(error => this.processHttpError(error)));
+  }
+
+  saveUser(user: User): Observable<User> {
+    return this.http
+      .post<User>(this.url + "users/"+this.token, user)
       .pipe(catchError(error => this.processHttpError(error)));
   }
 

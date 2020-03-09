@@ -11,7 +11,8 @@
     justify-content: center;
   }
   
-  mat-form-field {
+  mat-form-field,
+  mat-checkbox {
     display: block;
   }
 

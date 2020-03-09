@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
 
   formSubmit() {
     this.usersServerService.login(this.auth).subscribe(ok => {
-      this.router.navigateByUrl("/users");
+      this.router.navigateByUrl(this.usersServerService.redirectAfterLogin);
+      this.usersServerService.redirectAfterLogin="/extended-users"
     });
   }
 }
