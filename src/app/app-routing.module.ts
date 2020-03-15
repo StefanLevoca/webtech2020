@@ -11,7 +11,7 @@ const routes: Routes = [
     path: "films",
     loadChildren: () =>
       import("../modules/films/films.module").then(mod => mod.FilmsModule),
-    canLoad: [AuthGuard],
+    //    canLoad: [AuthGuard],
     data: { preloading: false }
   },
   {
