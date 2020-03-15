@@ -5,7 +5,7 @@ import { map, catchError, mapTo } from "rxjs/operators";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Auth } from "src/entities/auth";
 import { SnackbarService } from "./snackbar.service";
-import { Group } from 'src/entities/group';
+import { Group } from "src/entities/group";
 
 @Injectable({
   providedIn: "root"
@@ -18,7 +18,7 @@ export class UsersServerService {
   url = "http://localhost:8080/";
   //  private token: string = null;
   loggedUserSubscriber: Subscriber<string>;
-  redirectAfterLogin= "/extended-users";
+  redirectAfterLogin = "/users/extended";
 
   constructor(
     private http: HttpClient,
@@ -78,7 +78,7 @@ export class UsersServerService {
       .pipe(catchError(error => this.processHttpError(error)));
   }
 
-  getUser(id:number): Observable<User> {
+  getUser(id: number): Observable<User> {
     return this.http
       .get<User>(this.url + "user/" + id + "/" + this.token)
       .pipe(catchError(error => this.processHttpError(error)));
@@ -86,7 +86,7 @@ export class UsersServerService {
 
   saveUser(user: User): Observable<User> {
     return this.http
-      .post<User>(this.url + "users/"+this.token, user)
+      .post<User>(this.url + "users/" + this.token, user)
       .pipe(catchError(error => this.processHttpError(error)));
   }
 
@@ -129,9 +129,8 @@ export class UsersServerService {
 
   deleteUser(userId: number): Observable<boolean> {
     return this.http
-      .delete(this.url + "user/" + userId + "/" + this.token).pipe(
-        mapTo(true)
-      )
+      .delete(this.url + "user/" + userId + "/" + this.token)
+      .pipe(mapTo(true))
       .pipe(catchError(error => this.processHttpError(error)));
   }
 

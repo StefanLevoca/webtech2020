@@ -9,9 +9,10 @@ import { LoginComponent } from "./login/login.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { MaterialModule } from "./material.module";
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { RegisterComponent } from './register/register.component';
-import { UsersModule } from 'src/modules/users/users.module';
+import { NavBarComponent } from "./nav-bar/nav-bar.component";
+import { RegisterComponent } from "./register/register.component";
+import { UsersModule } from "src/modules/users/users.module";
+import { FilmsModule } from "src/modules/films/films.module";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { UsersModule } from 'src/modules/users/users.module';
     LoginComponent,
     PageNotFoundComponent,
     NavBarComponent,
-    RegisterComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

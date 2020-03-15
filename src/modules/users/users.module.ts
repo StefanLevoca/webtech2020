@@ -10,6 +10,7 @@ import { UserEditChildComponent } from './user-edit-child/user-edit-child.compon
 import { MaterialModule } from 'src/app/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GroupsToStringPipe } from 'src/pipes/groups-to-string.pipe';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { GroupsToStringPipe } from 'src/pipes/groups-to-string.pipe';
     ConfirmDialogComponent,
     EditUserComponent,
     UserEditChildComponent,
-    GroupsToStringPipe
+    GroupsToStringPipe,
+    AddUserComponent
   ],
   imports: [
     CommonModule,
