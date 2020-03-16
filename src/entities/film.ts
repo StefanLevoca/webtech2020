@@ -8,6 +8,7 @@ export class Film {
     id?: number,
     imdbID?: string,
     slovenskyNazov?: string,
+    poradieVRebricku?: { [rebricek: string]: number },
     reziser: Clovek[] = [],
     postava: Postava[] = []
   ) {}
