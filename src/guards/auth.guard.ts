@@ -11,6 +11,9 @@ import {
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { UsersServerService } from "src/services/users-server.service";
+import { Store } from "@ngxs/store";
+import { UrlAfterLogin } from "src/shared/auth.actions";
+import { tap, mapTo } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -18,7 +21,8 @@ import { UsersServerService } from "src/services/users-server.service";
 export class AuthGuard implements CanActivate, CanLoad {
   constructor(
     private userServerService: UsersServerService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | Observable<boolean> {
@@ -37,11 +41,13 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   canAnything(url: string): boolean | Observable<boolean> {
-    if (this.userServerService.token) {
+    if (this.store.selectSnapshot(state => state.auth.token)) {
       return true;
     }
-    this.userServerService.redirectAfterLogin = url;
-    this.router.navigateByUrl("/login");
-    return false;
+    //this.userServerService.redirectAfterLogin = url;
+    return this.store.dispatch(new UrlAfterLogin(url)).pipe(
+      tap(() => this.router.navigateByUrl("/login")),
+      mapTo(false)
+    );
   }
 }

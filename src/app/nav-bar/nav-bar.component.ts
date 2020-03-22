@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { UsersServerService } from "src/services/users-server.service";
 import { Router } from "@angular/router";
+import { Select, Store } from "@ngxs/store";
+import { AuthState, AuthModel } from "src/shared/auth.state";
+import { Observable } from "rxjs";
+import { Logout } from "src/shared/auth.actions";
 
 @Component({
   selector: "app-nav-bar",
@@ -9,20 +13,28 @@ import { Router } from "@angular/router";
 })
 export class NavBarComponent implements OnInit {
   username: string = "";
+  //  @Select(AuthState) authState$: Observable<AuthModel>;
+  //  @Select(state => state.auth.username) username$: Observable<string>;
+  @Select(AuthState.username) username$: Observable<string>;
 
   constructor(
     private userServerService: UsersServerService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.userServerService.getCurrentUser().subscribe(username => {
+    // this.authState$.subscribe(authModel => {
+    //   this.username = authModel.username;
+    // });
+    this.username$.subscribe(username => {
       this.username = username;
     });
   }
 
   logout() {
-    this.userServerService.logout();
-    this.router.navigateByUrl("/login");
+    this.store.dispatch(new Logout()).subscribe(() => {
+      this.router.navigateByUrl("/login");
+    });
   }
 }
