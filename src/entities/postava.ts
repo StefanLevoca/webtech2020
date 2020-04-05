@@ -2,8 +2,8 @@ import { Clovek } from "./clovek";
 
 export class Postava {
   constructor(
-    postava: string,
-    dolezitost: "hlavná postava" | "vedľajšia postava",
-    herec: Clovek
+    public postava: string,
+    public dolezitost: "hlavná postava" | "vedľajšia postava",
+    public herec: Clovek
   ) {}
 }

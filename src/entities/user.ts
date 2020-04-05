@@ -7,7 +7,7 @@ export class User {
     public id?: number,
     public lastLogin?: Date,
     public password: string = "",
-    public active:boolean = true,
+    public active: boolean = true,
     public groups: Group[] = []
   ) {}
 }

@@ -3,7 +3,7 @@ import {
   OnInit,
   AfterViewInit,
   ViewChild,
-  EventEmitter
+  EventEmitter,
 } from "@angular/core";
 import { FilmsServerService } from "src/services/films-server.service";
 import { Film } from "src/entities/film";
@@ -16,7 +16,7 @@ import { MatSort, Sort } from "@angular/material/sort";
 @Component({
   selector: "app-films-list",
   templateUrl: "./films-list.component.html",
-  styleUrls: ["./films-list.component.css"]
+  styleUrls: ["./films-list.component.css"],
 })
 export class FilmsListComponent implements OnInit, AfterViewInit {
   dataSource: FilmsDataSource;
@@ -27,7 +27,10 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
     "slovenskyNazov",
     "rok",
     "afi1998",
-    "afi2007"
+    "afi2007",
+    "reziser",
+    "postava",
+    "actions",
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -80,7 +83,7 @@ class FilmsDataSource implements DataSource<Film> {
     );
     this.futureObservables.next(
       filter$.pipe(
-        tap(filter => {
+        tap((filter) => {
           this.paginator.firstPage();
           this.filter = filter;
         })
@@ -117,7 +120,7 @@ class FilmsDataSource implements DataSource<Film> {
   connect(): Observable<Film[]> {
     return this.futureObservables.pipe(
       mergeAll(),
-      switchMap(event =>
+      switchMap((event) =>
         this.filmsServerService
           .getFilms(
             this.indexFrom,
@@ -127,7 +130,7 @@ class FilmsDataSource implements DataSource<Film> {
             this.descending
           )
           .pipe(
-            map(response => {
+            map((response) => {
               this.paginator.length = response.totalCount;
               return response.items;
             })

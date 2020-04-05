@@ -1,16 +1,29 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { User } from 'src/entities/user';
-import { FormGroup, FormControl, Validators, ValidationErrors, AsyncValidatorFn, FormArray } from '@angular/forms';
-import { UsersServerService } from 'src/services/users-server.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Group } from 'src/entities/group';
+import {
+  Component,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter
+} from "@angular/core";
+import { User } from "src/entities/user";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidationErrors,
+  AsyncValidatorFn,
+  FormArray
+} from "@angular/forms";
+import { UsersServerService } from "src/services/users-server.service";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Group } from "src/entities/group";
 
 @Component({
-  selector: 'app-user-edit-child',
-  templateUrl: './user-edit-child.component.html',
-  styleUrls: ['./user-edit-child.component.css']
+  selector: "app-user-edit-child",
+  templateUrl: "./user-edit-child.component.html",
+  styleUrls: ["./user-edit-child.component.css"]
 })
 export class UserEditChildComponent implements OnChanges {
   @Input() user: User;

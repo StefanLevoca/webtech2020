@@ -1,9 +1,16 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpParams,
+  HttpErrorResponse
+} from "@angular/common/http";
 import { Film } from "src/entities/film";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { Observable, EMPTY, throwError } from "rxjs";
+import { tap, catchError } from "rxjs/operators";
 import { UsersServerService } from "./users-server.service";
+import { SnackbarService } from "./snackbar.service";
+import { Store } from "@ngxs/store";
+import { TokenExpiredLogout } from "src/shared/auth.actions";
 
 @Injectable({
   providedIn: "root"
@@ -13,7 +20,9 @@ export class FilmsServerService {
 
   constructor(
     private http: HttpClient,
-    private usersServerService: UsersServerService
+    private usersServerService: UsersServerService,
+    private snackbarService: SnackbarService,
+    private store: Store
   ) {}
 
   get token() {
@@ -25,6 +34,13 @@ export class FilmsServerService {
     params?: HttpParams;
   } {
     return this.token ? { headers: { "X-Auth-Token": this.token } } : undefined;
+  }
+
+  saveFilm(film: Film): Observable<Film> {
+    let httpOptions = this.getHeader();
+    return this.http
+      .post<Film>(this.url, film, httpOptions)
+      .pipe(catchError(error => this.processHttpError(error)));
   }
 
   getFilms(
@@ -59,6 +75,36 @@ export class FilmsServerService {
     return this.http
       .get<FilmsResponse>(this.url, httpOptions)
       .pipe(tap(resp => console.log(resp)));
+  }
+
+  private processHttpError(error) {
+    if (error instanceof HttpErrorResponse) {
+      this.httpErrorToMessage(error);
+      return EMPTY;
+    }
+    return throwError(error);
+  }
+
+  private httpErrorToMessage(error: HttpErrorResponse): void {
+    console.log(JSON.stringify(error));
+    if (error.status === 0) {
+      this.snackbarService.errorMessage("Server unreachable");
+      return;
+    }
+    if (error.status >= 400 && error.status < 500) {
+      const message = error.error.errorMessage
+        ? error.error.errorMessage
+        : JSON.parse(error.error).errorMessage;
+
+      if (error.status === 401 && message == "unknown token") {
+        this.store.dispatch(new TokenExpiredLogout());
+        this.snackbarService.errorMessage("Session timeout");
+        return;
+      }
+      this.snackbarService.errorMessage(message);
+      return;
+    }
+    this.snackbarService.errorMessage("server error: " + error.message);
   }
 }
 

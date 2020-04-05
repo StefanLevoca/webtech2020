@@ -37,6 +37,28 @@
       {{ film.poradieVRebricku["AFI 2007"] }}
     </td>
   </ng-container>
+  <p>Reziser:</p>
+  <ng-container matColumnDef="reziser">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Režisér</th>
+    <td mat-cell *matCellDef="let film">
+      {{ film.reziser | reziseriToString }}
+    </td>
+  </ng-container>
+  <p>Postava:</p>
+  <ng-container matColumnDef="postava">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Postava</th>
+    <td mat-cell *matCellDef="let film">
+      {{ film.postava | postavyToString }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let film" nowrap>
+      <a mat-icon-button routerLink="/films/edit/{{ film.id }}">
+        <mat-icon>edit</mat-icon>
+      </a>
+    </td>
+  </ng-container>
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 </table>
@@ -48,4 +70,14 @@
   [showFirstLastButtons]="true"
 >
 </mat-paginator>
+
+<a
+  mat-flat-button
+  color="primary"
+  routerLink="/films/add"
+  routerLinkActive="mat-accent"
+>
+  <mat-icon>add</mat-icon> Add new film
+</a>
+
 <router-outlet></router-outlet>

@@ -47,6 +47,7 @@ import { environment } from "src/environments/environment";
     ReactiveFormsModule,
     MaterialModule,
     UsersModule,
+    //FilmsModule,
     AppRoutingModule
   ],
   providers: [],
