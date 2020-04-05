@@ -6,9 +6,9 @@ import {
   EventEmitter,
 } from "@angular/core";
 import { Film } from "src/entities/film";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { FilmsServerService } from "src/services/films-server.service";
+import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+//import { Router } from "@angular/router";
+//import { FilmsServerService } from "src/services/films-server.service";
 
 @Component({
   selector: "app-film-edit-child",
@@ -32,20 +32,24 @@ export class FilmEditChildComponent implements OnChanges {
       Validators.minLength(5),
     ]),
 
-    reziser: new FormControl("", [
-      Validators.required,
-      Validators.minLength(5),
-    ]),
+    reziser: new FormArray(
+      []
+      //"", [
+      //Validators.required,
+      //Validators.minLength(5),
+      //]
+    ),
 
-    postava: new FormControl("", [
-      Validators.required,
-      Validators.minLength(5),
-    ]),
+    postava: new FormArray(
+      []
+      //"", [
+      ///Validators.required,
+      //Validators.minLength(5),
+      // ]
+    ),
   });
 
-  constructor() //  private filmsServerService: FilmsServerService,
-  //  private router: Router
-  {}
+  constructor() {} //  private router: Router, //  private filmsServerService: FilmsServerService
 
   ngOnChanges(): void {
     if (this.film) {
@@ -70,11 +74,11 @@ export class FilmEditChildComponent implements OnChanges {
   }
 
   get reziser() {
-    return this.filmEditForm.get("reziser") as FormControl;
+    return this.filmEditForm.get("reziser") as FormArray;
   }
 
   get postava() {
-    return this.filmEditForm.get("postava") as FormControl;
+    return this.filmEditForm.get("postava") as FormArray;
   }
 
   stringify(text: string) {
