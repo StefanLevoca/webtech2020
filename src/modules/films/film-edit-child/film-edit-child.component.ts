@@ -7,6 +7,8 @@ import {
 } from "@angular/core";
 import { Film } from "src/entities/film";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+//import { Clovek } from "src/entities/clovek";
+//import { Postava } from "src/entities/postava";
 //import { Router } from "@angular/router";
 //import { FilmsServerService } from "src/services/films-server.service";
 
@@ -18,7 +20,8 @@ import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 export class FilmEditChildComponent implements OnChanges {
   @Input() film: Film;
   @Output() changed = new EventEmitter<Film>();
-
+  //reziser: Clovek[];
+  //postava: Postava[];
   filmEditForm = new FormGroup({
     nazov: new FormControl("", [Validators.required, Validators.minLength(5)]),
 
@@ -34,7 +37,7 @@ export class FilmEditChildComponent implements OnChanges {
 
     reziser: new FormArray(
       []
-      //"", [
+      //new FormControl("", [
       //Validators.required,
       //Validators.minLength(5),
       //]
@@ -42,10 +45,10 @@ export class FilmEditChildComponent implements OnChanges {
 
     postava: new FormArray(
       []
-      //"", [
-      ///Validators.required,
+      //new FormControl("", [
+      //Validators.required,
       //Validators.minLength(5),
-      // ]
+      //]
     ),
   });
 
@@ -56,8 +59,8 @@ export class FilmEditChildComponent implements OnChanges {
       this.nazov.setValue(this.film.nazov);
       this.rok.setValue(this.film.rok);
       this.slovenskyNazov.setValue(this.film.slovenskyNazov);
-      this.postava.setValue(this.film.postava);
       this.reziser.setValue(this.film.reziser);
+      this.postava.setValue(this.film.postava);
     }
   }
 
