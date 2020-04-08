@@ -39,11 +39,12 @@
 
         <mat-form-field>
           <input matInput placeholder="Rok" formControlName="rok" required />
-          <mat-error *ngIf="rok?.errors?.rok || rok?.errors?.pattern">
+          <mat-error *ngIf="rok?.errors?.required || rok?.errors?.pattern">
             Rok musí byť v správnom tvare</mat-error
           >
         </mat-form-field>
 
+        <!--    
         <p>Režiséri:</p>
         <mat-form-field>
           <input
@@ -78,7 +79,8 @@
           <mat-error *ngIf="postava?.errors?.required"
             >Postava musí byť vyplnená</mat-error
           >
-        </mat-form-field>
+        </mat-form-field> 
+        //-->
       </mat-card-content>
 
       <mat-card-actions>

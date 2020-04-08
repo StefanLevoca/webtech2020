@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./add-film.component.css"],
 })
 export class AddFilmComponent implements OnInit {
-  filmToEdit = new Film("", 0);
+  filmToEdit = new Film("", undefined);
 
   constructor(
     private filmsServerService: FilmsServerService,

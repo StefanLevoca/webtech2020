@@ -35,32 +35,32 @@ export class FilmEditChildComponent implements OnChanges {
       Validators.minLength(5),
     ]),
 
-    reziser: new FormArray(
-      []
-      //new FormControl("", [
-      //Validators.required,
-      //Validators.minLength(5),
-      //]
-    ),
+    //reziser: new FormArray(
+    //[]
+    //new FormControl("", [
+    //Validators.required,
+    //Validators.minLength(5),
+    //]
+    //),
 
-    postava: new FormArray(
-      []
-      //new FormControl("", [
-      //Validators.required,
-      //Validators.minLength(5),
-      //]
-    ),
+    //postava: new FormArray(
+    // []
+    //new FormControl("", [
+    //Validators.required,
+    //Validators.minLength(5),
+    //]
+    // ),
   });
 
-  constructor() {} //  private router: Router, //  private filmsServerService: FilmsServerService
+  constructor() {} //  private router: Router, private filmsServerService: FilmsServerService
 
   ngOnChanges(): void {
     if (this.film) {
       this.nazov.setValue(this.film.nazov);
       this.rok.setValue(this.film.rok);
       this.slovenskyNazov.setValue(this.film.slovenskyNazov);
-      this.reziser.setValue(this.film.reziser);
-      this.postava.setValue(this.film.postava);
+      //    this.reziser.setValue(this.film.reziser);
+      //    this.postava.setValue(this.film.postava);
     }
   }
 
@@ -96,8 +96,8 @@ export class FilmEditChildComponent implements OnChanges {
       undefined /* imdbID*/,
       this.slovenskyNazov.value,
       undefined /* poradieVRebricku*/,
-      this.reziser.value,
-      this.postava.value
+      undefined, //this.reziser.value
+      undefined //this.postava.value
     );
     this.changed.next(film);
   }
