@@ -17,20 +17,25 @@ const routes: Routes = [
         path: "edit/:id",
         component: FilmEditComponent,
         canActivate: [AuthGuard],
-        canDeactivate: [CanDeactivateGuard]
+        canDeactivate: [CanDeactivateGuard],
       },
-      { path: "add", component: AddFilmComponent, canActivate: [AuthGuard] },
+      {
+        path: "add",
+        component: AddFilmComponent,
+        canActivate: [AuthGuard],
+        canDeactivate: [CanDeactivateGuard],
+      },
       {
         path: "",
         component: FilmsListComponent,
-        children: [{ path: ":id", component: FilmDetailComponent }]
-      }
-    ]
-  }
+        children: [{ path: ":id", component: FilmDetailComponent }],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class FilmsRoutingModule {}

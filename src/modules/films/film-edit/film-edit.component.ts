@@ -11,7 +11,7 @@ import { map } from "rxjs/operators";
 @Component({
   selector: "app-film-edit",
   templateUrl: "./film-edit.component.html",
-  styleUrls: ["./film-edit.component.css"]
+  styleUrls: ["./film-edit.component.css"],
 })
 export class FilmEditComponent implements OnInit, CanDeactivateComponent {
   filmToEdit: Film;
@@ -25,7 +25,7 @@ export class FilmEditComponent implements OnInit, CanDeactivateComponent {
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.filmSaved = false;
       this.filmToEdit = data.film;
     });
@@ -45,9 +45,9 @@ export class FilmEditComponent implements OnInit, CanDeactivateComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: "Leaving?",
-        message: "Edited film is not saved, leave?"
-      }
+        message: "Edited film is not saved, leave?",
+      },
     });
-    return dialogRef.afterClosed().pipe(map(result => !!result));
+    return dialogRef.afterClosed().pipe(map((result) => !!result));
   }
 }
