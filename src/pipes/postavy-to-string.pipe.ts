@@ -8,9 +8,19 @@ export class PostavyToStringPipe implements PipeTransform {
   transform(postavy: Postava[]): string {
     return postavy
       .map(
-        (filmovaPostava) => filmovaPostava.postava
-        // + " " + filmovaPostava.dolezitost + " " + filmovaPostava.herec.priezvisko + " " + filmovaPostava.herec.krstneMeno + (filmovaPostava.herec.stredneMeno == null || false ? "" : " " + filmovaPostava.herec.stredneMeno)
+        (filmovaPostava) =>
+          "Postava " +
+          filmovaPostava.postava +
+          " je " +
+          filmovaPostava.dolezitost +
+          " a hraje ju " +
+          filmovaPostava.herec.krstneMeno +
+          " " +
+          (filmovaPostava.herec.stredneMeno
+            ? filmovaPostava.herec.stredneMeno + " "
+            : "") +
+          filmovaPostava.herec.priezvisko
       )
-      .join(", ");
+      .join("; ");
   }
 }

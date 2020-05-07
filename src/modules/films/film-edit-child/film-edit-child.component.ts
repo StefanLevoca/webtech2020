@@ -6,11 +6,13 @@ import {
   EventEmitter,
 } from "@angular/core";
 import { Film } from "src/entities/film";
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
-//import { Clovek } from "src/entities/clovek";
-//import { Postava } from "src/entities/postava";
-//import { Router } from "@angular/router";
-//import { FilmsServerService } from "src/services/films-server.service";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  FormBuilder,
+} from "@angular/forms";
 
 @Component({
   selector: "app-film-edit-child",
@@ -20,84 +22,118 @@ import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 export class FilmEditChildComponent implements OnChanges {
   @Input() film: Film;
   @Output() changed = new EventEmitter<Film>();
-  //reziser: Clovek[];
-  //postava: Postava[];
-  filmEditForm = new FormGroup({
-    nazov: new FormControl("", [Validators.required, Validators.minLength(5)]),
 
-    rok: new FormControl("", [
-      Validators.required,
-      Validators.pattern(/^\d{4}$/),
-    ]),
+  public reziseri: FormArray;
+  public reziserForm: FormGroup;
+  form: FormGroup;
+  array: FormArray;
 
-    slovenskyNazov: new FormControl("", [
-      Validators.required,
-      Validators.minLength(5),
-    ]),
+  ngOnInit() {
+    this.form = this.formBuilder.group({
+      array: this.formBuilder.array([this.postavaInit()]),
+    });
+    this.form.valueChanges.subscribe();
+  }
 
-    //reziser: new FormArray(
-    //[]
-    //new FormControl("", [
-    //Validators.required,
-    //Validators.minLength(5),
-    //]
-    //),
+  constructor(private formBuilder: FormBuilder) {
+    this.reziserForm = this.formBuilder.group({
+      reziseri: this.formBuilder.array([]),
+    });
+  }
 
-    //postava: new FormArray(
-    // []
-    //new FormControl("", [
-    //Validators.required,
-    //Validators.minLength(5),
-    //]
-    // ),
-  });
+  postavaInit(): FormGroup {
+    return this.formBuilder.group({
+      postava: "Názov postavy",
+      dolezitost: "hlavná postava",
 
-  constructor() {} //  private router: Router, private filmsServerService: FilmsServerService
+      herec: this.formBuilder.group({
+        krstneMeno: "Krstné meno",
+        stredneMeno: "Stredné meno",
+        priezvisko: "Priezvisko",
+      }),
+    });
+  }
+
+  addPostava(): void {
+    const control = <FormArray>this.form.controls["array"];
+    control.push(this.postavaInit());
+  }
+
+  createReziser(): FormGroup {
+    return this.formBuilder.group({
+      priezvisko: "",
+      krstneMeno: "",
+      stredneMeno: "",
+    });
+  }
+
+  addReziser(): void {
+    this.reziseri = this.reziserForm.get("reziseri") as FormArray;
+    this.reziseri.push(this.createReziser());
+  }
+
+  removeReziser(idx: number): void {
+    this.reziseri.removeAt(idx);
+  }
 
   ngOnChanges(): void {
     if (this.film) {
       this.nazov.setValue(this.film.nazov);
       this.rok.setValue(this.film.rok);
       this.slovenskyNazov.setValue(this.film.slovenskyNazov);
-      //    this.reziser.setValue(this.film.reziser);
-      //    this.postava.setValue(this.film.postava);
     }
   }
 
-  get nazov() {
+  filmEditForm = new FormGroup({
+    nazov: new FormControl("", [Validators.required, Validators.minLength(5)]),
+
+    slovenskyNazov: new FormControl("", [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
+
+    rok: new FormControl("", [
+      Validators.required,
+      Validators.pattern(/^\d{4}$/),
+    ]),
+
+    imdbID: new FormControl("", [Validators.pattern(/^[0-9]*$/)]),
+  });
+
+  get nazov(): FormControl {
     return this.filmEditForm.get("nazov") as FormControl;
   }
 
-  get rok() {
-    return this.filmEditForm.get("rok") as FormControl;
-  }
-
-  get slovenskyNazov() {
+  get slovenskyNazov(): FormControl {
     return this.filmEditForm.get("slovenskyNazov") as FormControl;
   }
 
-  get reziser() {
-    return this.filmEditForm.get("reziser") as FormArray;
+  get rok(): FormControl {
+    return this.filmEditForm.get("rok") as FormControl;
   }
 
-  get postava() {
-    return this.filmEditForm.get("postava") as FormArray;
+  get imdbID() {
+    return this.filmEditForm.get("imdbID") as FormControl;
   }
 
-  stringify(text: string) {
+  get reziserControl(): FormControl {
+    return this.reziserForm.get("reziseri")["controls"] as FormControl;
+  }
+
+  stringify(text: string): string {
     return JSON.stringify(text);
   }
 
-  formSubmit() {
+  formSubmit(): void {
     const film = new Film(
       this.nazov.value,
       this.rok.value,
-      undefined /* id */,
-      undefined /* imdbID*/,
+      this.film.id,
+      this.imdbID.value,
       this.slovenskyNazov.value,
       undefined /* poradieVRebricku*/,
-      undefined, //this.reziser.value
-      undefined //this.postava.value
+      this.reziseri.value,
+      this.form.value.array
     );
     this.changed.next(film);
   }

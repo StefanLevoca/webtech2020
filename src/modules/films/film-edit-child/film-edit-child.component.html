@@ -17,6 +17,9 @@
           <mat-error *ngIf="nazov?.errors?.required"
             >Názov musí byť vyplnený</mat-error
           >
+          <mat-error *ngIf="nazov?.errors?.conflictField">{{
+            nazov.errors.conflictField
+          }}</mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -38,49 +41,136 @@
         </mat-form-field>
 
         <mat-form-field>
-          <input matInput placeholder="Rok" formControlName="rok" required />
+          <input
+            matInput
+            type="number"
+            placeholder="Rok"
+            formControlName="rok"
+            required
+          />
           <mat-error *ngIf="rok?.errors?.required || rok?.errors?.pattern">
             Rok musí byť v správnom tvare</mat-error
           >
         </mat-form-field>
 
-        <!--    
-        <p>Režiséri:</p>
         <mat-form-field>
           <input
             matInput
-            placeholder="Režisér"
-            formControlName="reziser"
-            required
+            type="number"
+            placeholder="Internet movie database ID"
+            formControlName="imdbID"
           />
-          <mat-error *ngIf="reziser?.errors?.minlength">
-            Režisér musí mať aspoň
-            {{ reziser.errors.minlength.requiredLength }} znakov, aktuálne máte
-            {{ reziser.errors.minlength.actualLength }} znakov</mat-error
-          >
-          <mat-error *ngIf="reziser?.errors?.required"
-            >Režisér musí byť vyplnený</mat-error
+          <mat-error *ngIf="imdbID?.errors?.pattern">
+            imdbID musí byť v správnom tvare</mat-error
           >
         </mat-form-field>
 
-        <p>Postavy:</p>
-        <mat-form-field>
-          <input
-            matInput
-            placeholder="Postava"
-            formControlName="postava"
-            required
-          />
-          <mat-error *ngIf="postava?.errors?.minlength">
-            Postava musia mať aspoň
-            {{ postava.errors.minlength.requiredLength }} znakov, aktuálne máte
-            {{ postava.errors.minlength.actualLength }} znakov</mat-error
-          >
-          <mat-error *ngIf="postava?.errors?.required"
-            >Postava musí byť vyplnená</mat-error
-          >
-        </mat-form-field> 
-        //-->
+        <p>Režisér:</p>
+        <form [formGroup]="reziserForm" class="container mt-3">
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <button
+                type="button"
+                class="btn btn-primary mb-2"
+                (click)="addReziser()"
+              >
+                Pridať režiséra
+              </button>
+              <section
+                class="container border mb-4 p-3"
+                formArrayName="reziseri"
+                *ngFor="let reziser of reziserControl; let idx = index"
+              >
+                <div [formGroupName]="idx">
+                  <div class="row">
+                    <div class="col-6">
+                      <h4>{{ idx + 1 }}. režisér</h4>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        (click)="removeReziser(idx)"
+                      >
+                        Odstrániť režiséra
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Priezvisko </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="priezvisko"
+                          placeholder="Priezvisko"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Krstné meno </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="krstneMeno"
+                          placeholder="Krstné meno"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label>Stredné meno </label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="stredneMeno"
+                          placeholder="Stredné meno"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </form>
+
+        <p>Postava:</p>
+        <form [formGroup]="form">
+          <div formArrayName="array">
+            <div
+              *ngFor="
+                let actor of form['controls'].array['controls'];
+                let idx = index
+              "
+            >
+              <div formGroupName="{{ idx }}" class="Character">
+                <input type="text" formControlName="postava" />
+                <input type="text" formControlName="dolezitost" />
+
+                <p>Herec:</p>
+                <div formGroupName="herec">
+                  <div>
+                    <div class="Actor">
+                      <input type="text" formControlName="krstneMeno" />
+                      <input type="text" formControlName="stredneMeno" />
+                      <input type="text" formControlName="priezvisko" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input
+              type="button"
+              (click)="addPostava()"
+              value="Pridať postavu"
+            />
+          </div>
+        </form>
       </mat-card-content>
 
       <mat-card-actions>

@@ -13,7 +13,7 @@ import { map } from "rxjs/operators";
   styleUrls: ["./add-film.component.css"],
 })
 export class AddFilmComponent implements OnInit {
-  filmToEdit = new Film("", undefined);
+  filmToEdit = new Film("", 0);
   filmSaved = false;
 
   constructor(

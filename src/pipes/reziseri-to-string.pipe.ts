@@ -9,13 +9,11 @@ export class ReziseriToStringPipe implements PipeTransform {
     return reziseri
       .map(
         (reziser) =>
-          reziser.priezvisko +
-          " " +
           reziser.krstneMeno +
-          (reziser.stredneMeno == null || false
-            ? ""
-            : " " + reziser.stredneMeno)
+          " " +
+          (reziser.stredneMeno ? reziser.stredneMeno + " " : "") +
+          reziser.priezvisko
       )
-      .join(", ");
+      .join("; ");
   }
 }

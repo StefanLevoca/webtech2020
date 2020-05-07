@@ -37,6 +37,12 @@
       {{ film.poradieVRebricku["AFI 2007"] }}
     </td>
   </ng-container>
+  <ng-container matColumnDef="imdbID">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>imdb ID</th>
+    <td mat-cell *matCellDef="let film">
+      {{ film.imdbID }}
+    </td>
+  </ng-container>
   <p>Reziser:</p>
   <ng-container matColumnDef="reziser">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Režisér</th>

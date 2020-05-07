@@ -10,7 +10,7 @@ import { Film } from "src/entities/film";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { DataSource } from "@angular/cdk/table";
 import { Observable, of } from "rxjs";
-import { map, switchMap, mergeMap, mergeAll, tap } from "rxjs/operators";
+import { map, switchMap, mergeAll, tap } from "rxjs/operators";
 import { MatSort, Sort } from "@angular/material/sort";
 
 @Component({
@@ -28,6 +28,7 @@ export class FilmsListComponent implements OnInit, AfterViewInit {
     "rok",
     "afi1998",
     "afi2007",
+    "imdbID",
     "reziser",
     "postava",
     "actions",

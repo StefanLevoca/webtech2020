@@ -7,15 +7,20 @@ import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { AuthGuard } from "src/guards/auth.guard";
 import { CanDeactivateGuard } from "src/guards/can-deactivate.guard";
 import { AddFilmComponent } from "./add-film/add-film.component";
+import { FilmResolverService } from "src/guards/film-resolver.service";
 
 const routes: Routes = [
   {
     path: "",
     component: FilmsMenuComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: "edit/:id",
         component: FilmEditComponent,
+        resolve: {
+          film: FilmResolverService,
+        },
         canActivate: [AuthGuard],
         canDeactivate: [CanDeactivateGuard],
       },

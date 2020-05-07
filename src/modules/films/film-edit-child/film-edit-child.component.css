@@ -11,7 +11,10 @@ mat-card-title {
   justify-content: center;
 }
 
-mat-form-field,
+mat-form-field {
+  display: block;
+}
+
 mat-card-actions {
   display: flex;
   justify-content: center;

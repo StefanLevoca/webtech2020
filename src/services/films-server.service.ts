@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpParams,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpHeaders,
 } from "@angular/common/http";
 import { Film } from "src/entities/film";
 import { Observable, EMPTY, throwError } from "rxjs";
@@ -13,7 +14,7 @@ import { Store } from "@ngxs/store";
 import { TokenExpiredLogout } from "src/shared/auth.actions";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class FilmsServerService {
   url = "http://localhost:8080/films";
@@ -37,10 +38,27 @@ export class FilmsServerService {
   }
 
   saveFilm(film: Film): Observable<Film> {
-    let httpOptions = this.getHeader();
+    let httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-Auth-Token": this.token,
+      }),
+    };
     return this.http
       .post<Film>(this.url, film, httpOptions)
-      .pipe(catchError(error => this.processHttpError(error)));
+      .pipe(catchError((error) => this.processHttpError(error)));
+  }
+
+  getFilm(id: number): Observable<Film> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-Auth-Token": this.token,
+      }),
+    };
+    return this.http
+      .get<Film>(this.url + "/" + id, httpOptions)
+      .pipe(catchError((error) => this.processHttpError(error)));
   }
 
   getFilms(
@@ -74,7 +92,13 @@ export class FilmsServerService {
     }
     return this.http
       .get<FilmsResponse>(this.url, httpOptions)
-      .pipe(tap(resp => console.log(resp)));
+      .pipe(tap((resp) => console.log(resp)));
+  }
+
+  filmConflicts(film: Film): Observable<string[]> {
+    return this.http
+      .post<string[]>(this.url + "film-conflicts", film)
+      .pipe(catchError((error) => this.processHttpError(error)));
   }
 
   private processHttpError(error) {
